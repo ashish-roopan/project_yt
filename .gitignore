@@ -1,0 +1,12 @@
+*__pycache__
+*vscode
+fonts
+data
+/runs
+/dist
+/build
+/*.egg-info
+/flagged
+version.py
+__pycache__
+model_repo

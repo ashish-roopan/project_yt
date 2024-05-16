@@ -1,9 +1,7 @@
 import os
 import torch
 import torchaudio
-import sys
-sys.path.append('.')
-from resemble_enhance.resemble_enhance.enhancer.inference import denoise, enhance
+from resemble_enhance.enhancer.inference import denoise, enhance
 from scipy.io.wavfile import write
 
 
@@ -34,10 +32,8 @@ def _fn(input, output, solver, nfe, tau, denoising):
 
 def parse_args():
     import argparse
-
     parser = argparse.ArgumentParser()
-    parser.add_argument("--input", type=str, default='data/audio/raw')
-    parser.add_argument("--output", type=str, default='data/audio/denoised')
+    parser.add_argument("--input", type=str, default=None)
     parser.add_argument("--solver", type=str, default="midpoint")
     parser.add_argument("--nfe", type=int, default=64)
     parser.add_argument("--tau", type=float, default=0.5)
@@ -52,9 +48,5 @@ else:
     device = "cpu"
 
 args = parse_args()
-raw_files = os.listdir(args.input)
-for raw_file in raw_files:
-    input_file = os.path.join(args.input, raw_file)
-    output_file = os.path.join(args.output, os.path.basename(input_file))
-    print(f"Processing {input_file}...")
-    _fn(input_file, output_file, args.solver, args.nfe, args.tau, args.denoising)
+output = f'outputs/{os.path.basename(args.input)}'
+_fn(args.input, output, args.solver, args.nfe, args.tau, args.denoising)
